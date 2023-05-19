@@ -1,6 +1,6 @@
 # Decentralized Game Night Voting Application
 
-This is a demo application to implement voting in solidity smart contract using ReactJS. 
+This is a demo application to implement voting in solidity smart contract using ReactJS.
 
 [Menthol Game Night](https://menthol-game-night.vercel.app/)
 
