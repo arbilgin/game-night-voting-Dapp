@@ -121,6 +121,37 @@ function App() {
     setNumber(e.target.value);
   }
 
+  async function addNetworkToMetamask() {
+
+    const chainId = 73799 // Volta Testnet
+
+    if (window.ethereum.networkVersion !== chainId) {
+      try {
+        await window.ethereum.request({
+          method: 'wallet_switchEthereumChain',
+          params: [{ chainId: ethers.utils.hexlify(chainId) }]
+        });
+      } catch (err) {
+        // This error code indicates that the chain has not been added to MetaMask
+        if (err.code === 4902) {
+          await window.ethereum.request({
+            method: 'wallet_addEthereumChain',
+            params: [
+              {
+                chainName: 'Volta',
+                chainId: ethers.utils.hexlify(chainId),
+                nativeCurrency: { name: 'VOLTA', symbol: 'VT', decimals: 18, },
+                rpcUrls: ['https://volta-rpc.energyweb.org/'],
+                blockExplorerUrls: ['https://volta-explorer.energyweb.org/']
+              }
+            ]
+          });
+        }
+      }
+    }
+  }
+
+
   return (
     <div className="App">
       {votingStatus ? (isConnected ? <Connected
@@ -128,9 +159,10 @@ function App() {
         candidates={candidates}
         remainingTime={remainingTime}
         number={number}
-        handleNumberChange={handleNumberChange} 
+        handleNumberChange={handleNumberChange}
         voteFunction={vote}
-        showButton={CanVote} /> : <Login connectWallet={connectToMetamask} />) : (<Finished />)}
+        showButton={CanVote}
+        addNetwork={addNetworkToMetamask} /> : <Login connectWallet={connectToMetamask} />) : (<Finished />)}
 
     </div>
   );
