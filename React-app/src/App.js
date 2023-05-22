@@ -121,6 +121,58 @@ function App() {
     setNumber(e.target.value);
   }
 
+  async function addVoltaNetwork() {
+    try {
+      await window.ethereum.request({
+        method: "wallet_addEthereumChain",
+        params: [{
+          chainId: "0x12047",
+          rpcUrls: ["https://volta-rpc.energyweb.org/"],
+          chainName: "Volta",
+          nativeCurrency: {
+            name: "Volta",
+            symbol: "VT",
+            decimals: 18
+          },
+          blockExplorerUrls: ["https://volta-explorer.energyweb.org/"]
+        }]
+      });
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  // async function addNetworkToMetamask() {
+
+  //   //const chainId = 73799 // Volta Testnet
+
+  //   if (window.ethereum.networkVersion !== "0x12047") {
+  //     try {
+  //       await window.ethereum.request({
+  //         method: 'wallet_switchEthereumChain',
+  //         params: [{ chainId: "0x12047" }]
+  //       });
+  //     } catch (err) {
+  //       // This error code indicates that the chain has not been added to MetaMask
+  //       if (err.code === 4902) {
+  //         await window.ethereum.request({
+  //           method: 'wallet_addEthereumChain',
+  //           params: [
+  //             {
+  //               chainName: 'Volta',
+  //               chainId: "0x12047",
+  //               nativeCurrency: { name: 'VOLTA', symbol: 'VT', decimals: 18 },
+  //               rpcUrls: ['https://volta-rpc.energyweb.org/'],
+  //               blockExplorerUrls: ['https://volta-explorer.energyweb.org/']
+  //             }
+  //           ]
+  //         });
+  //       }
+  //     }
+  //   }
+  // }
+
+
   return (
     <div className="App">
       {votingStatus ? (isConnected ? <Connected
@@ -128,9 +180,10 @@ function App() {
         candidates={candidates}
         remainingTime={remainingTime}
         number={number}
-        handleNumberChange={handleNumberChange} 
+        handleNumberChange={handleNumberChange}
         voteFunction={vote}
-        showButton={CanVote} /> : <Login connectWallet={connectToMetamask} />) : (<Finished />)}
+        showButton={CanVote}
+        addNetwork={addVoltaNetwork} /> : <Login connectWallet={connectToMetamask} addNetwork={addVoltaNetwork} />) : (<Finished />)}
 
     </div>
   );
