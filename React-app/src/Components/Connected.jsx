@@ -6,18 +6,20 @@ const Connected = (props) => {
             <h1 className="connected-header">You are Connected to Metamask</h1>
             <p className="connected-account">Your Address: {props.account}</p>
             <p className="connected-time">Remaining Time: {props.remainingTime}</p>
-            
+
+             <a href="https://voltafaucet.energyweb.org/" target="_blank" class="footer-link" className="login-button">Get Volta Token</a>
+            <br></br>
             <button className="login-button" onClick={props.addNetwork}>Add Volta Network to Metamask</button>
             <br></br>
             
             {props.showButton ? (
-                <p className="connected-account">You have already voted</p>
+                <p className="connected-account">You are on the wrong network or have already voted</p>
             ) : (
                 <div>
                     <input type="number" placeholder="Enter Index" value={props.number} onChange={props.handleNumberChange}></input>
                     <br />
 
-                    <button className="vote-button" onClick={props.voteFunction}>Vote</button>
+                    <button className="login-button" onClick={props.voteFunction}>Vote</button>
 
                     <br></br>
                     <br></br>
